@@ -79,5 +79,9 @@ scrape_configs:
         labels:
           service: machine
 
-
+  - job_name: monitoring
+    static_configs:
+      - targets: ['nginx-prometheus-exporter:9113']
+        labels:
+          service: nginx-exporter
 
