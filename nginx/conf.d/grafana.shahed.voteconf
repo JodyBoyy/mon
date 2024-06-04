@@ -17,6 +17,7 @@ server {
     server_name mon.shahed.vote;
 
     listen 443 ssl;
+    
     ssl_certificate     /etc/letsencrypt/live/mon.shahed.vote/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/mon.shahed.vote/privkey.pem;
 
@@ -62,23 +63,8 @@ server {
         proxy_set_header Proxy-Connection "Keep-Alive";
         proxy_redirect off;
     }
-# }
 
-# server {
-    listen 3100;
-    proxy_set_header     X-Scope-OrgID docker-ha;
 
-    location ~ /loki/api/.* {
-        proxy_read_timeout 1800;
-        proxy_connect_timeout 1600;
-        proxy_send_timeout 1800;
-        proxy_pass       http://querier$request_uri;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "Keep-Alive";
-        proxy_set_header Proxy-Connection "Keep-Alive";
-        proxy_redirect off;
-    }
 
 #######################################################################
 #######################################################################
@@ -107,3 +93,22 @@ server {
 
 
 
+server {
+    listen 3100;
+    server_name mon.shahed.vote;
+    ssl_certificate     /etc/letsencrypt/live/mon.shahed.vote/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/mon.shahed.vote/privkey.pem;
+
+    proxy_set_header     X-Scope-OrgID docker-ha;
+
+    location ~ /loki/api/.* {
+        proxy_read_timeout 1800;
+        proxy_connect_timeout 1600;
+        proxy_send_timeout 1800;
+        proxy_pass       http://querier$request_uri;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Keep-Alive";
+        proxy_set_header Proxy-Connection "Keep-Alive";
+        proxy_redirect off;
+    }
