@@ -70,6 +70,8 @@ services:
   nginx:
     build: nginx/
     restart: always
+    env_file:
+      - .env-nx
     volumes:
       - /opt/log/nginx:/var/log/nginx
       - /opt/ssl:/etc/nginx/ssl

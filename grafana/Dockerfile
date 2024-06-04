@@ -1,4 +1,4 @@
-FROM grafana/grafana:9.2.1
+FROM grafana/grafana:latest
 
 ENV HOSTNAME=mon.shahed.vote
 ENV GF_DEFAULT_INSTANCE_NAME=mon.shahed.vote

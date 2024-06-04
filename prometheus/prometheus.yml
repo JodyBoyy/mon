@@ -6,7 +6,6 @@ rule_files:
   - rules/host-and-hardware.rules.yml
   - rules/instance.rules.yml
   - rules/security.rules.yml
-  - rules/log.rules.yml
 
 
 alerting:
