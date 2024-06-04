@@ -1,0 +1,39 @@
+groups:
+- name: node.hardware
+  rules:
+  - alert: HostOutOfDiskSpace
+    expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0
+    for: 2m
+    labels:
+      severity: Critical
+    annotations:
+      summary: Host out of disk space (instance {{ $labels.instance }})
+      description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      topic: (instance {{ $labels.instance }})
+  - alert: HostRunOutOfDiskSpace
+    expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 1 and ON (instance, device, mountpoint) node_filesystem_readonly == 0
+    for: 2m
+    labels:
+      severity: Emergency1
+    annotations:
+      summary: Host out of disk space (instance {{ $labels.instance }})
+      description: "Disk is almost full (< 1% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      topic: (instance {{ $labels.instance }})
+  - alert: WindowsServerDiskSpaceUsage
+    expr: 100.0 - 100 * ((windows_logical_disk_free_bytes / 1024 / 1024 ) / (windows_logical_disk_size_bytes / 1024 / 1024)) > 90
+    for: 2m
+    labels:
+      severity: Critical
+    annotations:
+      summary: Windows Server disk Space Usage (instance {{ $labels.instance }})
+      description: "Disk usage is more than 90%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      topic: (instance {{ $labels.instance }})
+  - alert: WindowsServerDiskSpaceUsage
+    expr: 100.0 - 100 * ((windows_logical_disk_free_bytes / 1024 / 1024 ) / (windows_logical_disk_size_bytes / 1024 / 1024)) > 99
+    for: 2m
+    labels:
+      severity: Emergency1
+    annotations:
+      summary: Windows Server disk Space Usage (instance {{ $labels.instance }})
+      description: "Disk usage is more than 99%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      topic: (instance {{ $labels.instance }})

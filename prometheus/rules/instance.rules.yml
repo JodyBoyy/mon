@@ -1,0 +1,54 @@
+groups:
+- name: instance
+  rules:
+  # node_exporter (Linux Servers)
+  # monitoring agent status
+  # ------------------------------
+  - alert: ExporterInstanceDown
+    expr: up{job!~"blackbox_(.*)"} == 0
+    for: 2m
+    labels:
+      severity: Error
+    annotations:
+      summary: "Endpoint {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minutes."
+      topic: "{{ $labels.instance }}"
+  # blackbox_exporter
+  # check for production endpoints and protocols such as HTTP, ICMP, ...
+  # ------------------------------
+  - alert: ProductionInstanceDown
+    expr: probe_success{job="blackbox_endpoint"} == 0
+    for: 2m
+    labels:
+      severity: Critical
+    annotations:
+      summary: "Endpoint {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minutes."
+      topic: "{{ $labels.instance }}"
+  # blackbox_exporter of gateways
+  # check for production endpoints and protocols such as HTTP, ICMP, ...
+  # ------------------------------
+
+  - alert: ProductionUptimeInstanceDown
+    expr: probe_success{job="blackbox_endpoint"} == 0
+    for: 3m
+    labels:
+      severity: Emergency1
+    annotations:
+      summary: "Endpoint {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
+      topic: "{{ $labels.instance }}"
+  # wmi_exporter (Windows Servers)
+  # monitoring agent status
+  # ------------------------------
+  - alert: WindowsServerCollectorError
+    expr: windows_exporter_collector_success == 0
+    for: 2m
+    labels:
+      severity: Error
+    annotations:
+      summary: Windows Server collector Error (instance {{ $labels.instance }})
+      description: "Collector {{ $labels.collector }} was not successful\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      topic: "{{ $labels.instance }}"
+
+

@@ -1,0 +1,12 @@
+groups:
+- name: fatal-errors
+  rules:
+
+  - alert: HighFatalErrorsRateMothership
+    expr: sum(rate({service_name=~"mothership"}[5m])) by (service_name) > 0.05
+    for: 2m
+    labels:
+      severity: Critical
+    annotations:
+      summary: "Fatal Errors of mothership goes high"
+      description: "Fatal Errors rate of service **Mothership** goes above 0.05 for more than 5m minutes. open grafana dashboard to see details"

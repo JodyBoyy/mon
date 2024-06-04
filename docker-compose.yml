@@ -1,0 +1,86 @@
+version: '3.8'
+
+x-extra_hosts:
+  &default-extra_hosts
+  - "gateway1:1.1.1.1"
+
+
+networks:
+  local-net:
+    driver: bridge
+
+volumes:
+  grafana_data: {}
+  prometheus-data: {}
+  loki-data: {}
+
+
+services:
+
+  blackbox-exporter:
+    build: blackbox-exporter/.
+    restart: always
+    extra_hosts: *default-extra_hosts
+    networks:
+      local-net:
+        aliases:
+          - blackbox_host
+
+
+  prometheus:
+    build: prometheus/.
+    restart: always
+    command: --storage.tsdb.retention.time=30d --config.file=/etc/prometheus/prometheus.yml
+    depends_on:
+      - blackbox-exporter
+    volumes:
+      - prometheus-data:/prometheus
+    extra_hosts: *default-extra_hosts
+    networks:
+      local-net:
+        aliases:
+          - prometheus_host
+  
+
+  loki-old:
+    build: loki-old/.
+    restart: always
+    command: -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - loki-data:/loki
+    extra_hosts: *default-extra_hosts
+    networks:
+      local-net:
+        aliases:
+          - loki_host
+
+  grafana:
+    build: grafana/.
+    restart: always
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - loki-old
+    networks:
+      local-net:
+        aliases:
+          - grafana_host
+
+  nginx:
+    build: nginx/
+    restart: always
+    volumes:
+      - /opt/log/nginx:/var/log/nginx
+      - /opt/ssl:/etc/nginx/ssl
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - grafana
+      - loki-old
+      - prometheus
+    networks:
+      local-net:
+        aliases:
+          - nginx

@@ -1,0 +1,84 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 30s
+
+rule_files:
+  - rules/host-and-hardware.rules.yml
+  - rules/instance.rules.yml
+  - rules/security.rules.yml
+  - rules/log.rules.yml
+
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager_host:9093
+
+scrape_configs:
+  
+  - job_name: 'blackbox_endpoint'
+    scrape_interval: 60s
+    scrape_timeout: 60s
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://shahed.vote
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox_host:9115
+
+
+
+
+
+
+
+  - job_name: 'blackbox_ping'
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+        - gateway1
+        - gateway2
+        - gateway3
+        - gateway4
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox_host:9115
+
+
+
+  - job_name: monitoring
+    basic_auth:
+      username: 'admin'
+      password: 'B2EC3NOhI0NYQmELjtBt'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: prometheus
+      - targets: ['grafana_host:3000']
+        labels:
+          service: panel
+      - targets: ['loki_host:3100']
+        labels:
+          service: loki
+      - targets: ['node_exporter:9100']
+        labels:
+          service: machine
+
+
+
