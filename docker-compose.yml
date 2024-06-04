@@ -89,3 +89,19 @@ services:
       local-net:
         aliases:
           - nginx
+
+
+
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    restart: always
+
+    ports:
+      - 9113:9113
+    depends_on:
+      - prometheus
+    command: --nginx.scrape-uri=http://shahed.vote:8080/stub_status_nx
+    networks:
+      local-net:
+        aliases:
+          - nginx-prometheus-exporter
