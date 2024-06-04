@@ -13,7 +13,8 @@ volumes:
   grafana_data: {}
   prometheus-data: {}
   loki-data: {}
-  letsencrypt:
+  letsencrypt: {}
+  nginx_logs: {}
 
 
 services:
@@ -74,7 +75,7 @@ services:
     env_file:
       - .env-nx
     volumes:
-      - /opt/log/nginx:/var/log/nginx
+      - nginx_logs:/var/log/nginx
       - "letsencrypt:/etc/letsencrypt"
 
     ports:
