@@ -1,4 +1,4 @@
-FROM grafana/loki:2.0.0
+FROM grafana/loki:latest
 
 RUN mkdir -p /etc/loki/rules-temp
 
