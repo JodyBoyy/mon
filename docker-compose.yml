@@ -37,7 +37,7 @@ services:
       - blackbox-exporter
     volumes:
       - prometheus-data:/prometheus
-    extra_hosts: *default-extra_hosts
+    #extra_hosts: *default-extra_hosts
     networks:
       local-net:
         aliases:
@@ -48,9 +48,8 @@ services:
     build: loki-old/.
     restart: always
     command: -config.file=/etc/loki/loki-config.yaml
-    volumes:
-      - loki-data:/loki
-    extra_hosts: *default-extra_hosts
+#    volumes:
+#      - loki-data:/loki
     networks:
       local-net:
         aliases:
@@ -100,7 +99,7 @@ services:
       - 9113:9113
     depends_on:
       - prometheus
-    command: --nginx.scrape-uri=http://shahed.vote:8080/stub_status_nx
+    command: --nginx.scrape-uri=https://shahed.vote/stub_status_nx
     networks:
       local-net:
         aliases:
