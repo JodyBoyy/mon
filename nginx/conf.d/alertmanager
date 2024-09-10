@@ -2,11 +2,11 @@
 #     listen 80;
 #     listen [::]:80;
 
-#     server_name alertmanager.shahed.com;
+#     server_name alertmanager.domain.com;
 
 #     listen 443 ssl;
-#     ssl_certificate     /etc/nginx/ssl/shahed.com.cer.pem;
-#     ssl_certificate_key /etc/nginx/ssl/shahed.com.key.pem;
+#     ssl_certificate     /etc/nginx/ssl/domain.com.cer.pem;
+#     ssl_certificate_key /etc/nginx/ssl/domain.com.key.pem;
 
 #     if ($scheme = http) {
 #         return 301 https://$server_name$request_uri;

@@ -4,14 +4,14 @@ groups:
 
 
   - alert: SSLexpiry
-    expr: (probe_ssl_earliest_cert_expiry{instance="https://taaghche.com"} - time()) / 86400 < 15
+    expr: (probe_ssl_earliest_cert_expiry{instance="https://domain.com"} - time()) / 86400 < 15
     for: 20m
     labels:
       severity: Critical
     annotations:
       topic: "SSL certificate {{ $labels.instance }} will be expired in 15 days"
   - alert: SSLexpiry
-    expr: (probe_ssl_earliest_cert_expiry{instance="https://download.taaghche.ir/ping"} - time()) / 86400 < 15
+    expr: (probe_ssl_earliest_cert_expiry{instance="https://download.domain.ir/ping"} - time()) / 86400 < 15
     for: 20m
     labels:
       severity: Critical

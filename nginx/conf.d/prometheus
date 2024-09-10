@@ -2,11 +2,11 @@
 #     listen 80 default_server;
 #     listen [::]:80;
 
-#     server_name mon.shahed.vote;
+#     server_name mon.domain.local;
 
 #     listen 443 ssl default_server;
-#     ssl_certificate     /etc/letsencrypt/live/mon.shahed.vote/fullchain.pem;
-#     ssl_certificate_key /etc/letsencrypt/live/mon.shahed.vote/privkey.pem;
+#     ssl_certificate     /etc/letsencrypt/live/mon.domain.local/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/mon.domain.local/privkey.pem;
 
 #     if ($scheme = http) {
 #         return 301 https://$server_name$request_uri;

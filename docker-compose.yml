@@ -99,7 +99,7 @@ services:
       - 9113:9113
     depends_on:
       - prometheus
-    command: --nginx.scrape-uri=https://shahed.vote/stub_status_nx
+    command: --nginx.scrape-uri=https://domain.local/stub_status_nx
     networks:
       local-net:
         aliases:

@@ -1,7 +1,7 @@
 FROM grafana/grafana:latest
 
-ENV HOSTNAME=mon.shahed.vote
-ENV GF_DEFAULT_INSTANCE_NAME=mon.shahed.vote
+ENV HOSTNAME=mon.domain.local
+ENV GF_DEFAULT_INSTANCE_NAME=mon.domain.local
 
 ENV GF_SERVER_READ_TIMEOUT=1000s
 ENV GF_USERS_ALLOW_SIGN_UP=false

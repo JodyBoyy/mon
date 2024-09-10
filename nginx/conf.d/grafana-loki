@@ -14,11 +14,11 @@
 #     listen 80;
 #     listen [::]:80;
 
-#     server_name grafana-loki.shahed.com;
+#     server_name grafana-loki.domain.com;
 
 #     listen 443 ssl;
-#     ssl_certificate     /etc/nginx/ssl/shahed.com.cer.pem;
-#     ssl_certificate_key /etc/nginx/ssl/shahed.com.key.pem;
+#     ssl_certificate     /etc/nginx/ssl/domain.com.cer.pem;
+#     ssl_certificate_key /etc/nginx/ssl/domain.com.key.pem;
 
 #     proxy_set_header     X-Scope-OrgID docker-ha;
 

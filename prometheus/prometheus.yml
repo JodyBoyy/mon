@@ -24,7 +24,7 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-        - https://shahed.vote
+        - https://domain.local
 
     relabel_configs:
       - source_labels: [__address__]
